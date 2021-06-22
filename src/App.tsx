@@ -26,7 +26,7 @@ function App() {
 
   useEffect(() => {
 
-    auth.onAuthStateChanged(user => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
         const { displayName, photoURL, uid } = user;
 
@@ -42,6 +42,11 @@ function App() {
       }
     })
 
+    return () => {
+      unsubscribe();//sempre que cadastrar um event listener, tem que limpar no return,
+      //do contrario o react continua ouvindo o evento mesmo com o componente fora da tela,
+      //o que pode dar erros
+    }
   }, [])
 
   async function signInWithGoogle() {
