@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+
 
 import { Link } from 'react-router-dom'
 
@@ -8,15 +8,10 @@ import googleIconImg from '../assets/images/google-icon.svg'
 
 import { Button } from '../components/Button'
 
-import { TestContext } from '../App'
 
 import '../styles/auth.scss';
 
 export function NewRoom() {
-
-
-    const { value, setValue } = useContext(TestContext)
-
 
 
     return (
