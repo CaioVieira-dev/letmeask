@@ -16,7 +16,7 @@ import '../styles/auth.scss';
 export function Home() {
     const history = useHistory();
 
-    const value = useContext(TestContext)
+    const { value, setValue } = useContext(TestContext)
 
 
     function handleCreateRoom() {
