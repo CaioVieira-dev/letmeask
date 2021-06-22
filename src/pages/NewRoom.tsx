@@ -10,11 +10,11 @@ import { Button } from '../components/Button'
 
 
 import '../styles/auth.scss';
-import { AuthContext } from '../contexts/AuthContextProvider'
-import { useContext } from 'react'
+
+import { useAuth } from '../hooks/useAuth';
 
 export function NewRoom() {
-    const { user } = useContext(AuthContext)
+    const { user } = useAuth();
 
     return (
         <div id="page-auth">
