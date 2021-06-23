@@ -34,7 +34,7 @@ export function Room() {
                 name: user.name,
                 avatar: user.avatar
             },
-            isHilighted: false,
+            isHighlighted: false,
             isAnswered: false,
         }
 
@@ -63,7 +63,17 @@ export function Room() {
                         value={newQuestion}
                     />
                     <div className="form-footer">
-                        <span>Para enviar uma pergunta, <button>faça seu login</button>.</span>
+                        {user ? (
+                            <div className="user-info">
+                                <img src={user.avatar} alt={user.name} />
+                                <span>{user.name}</span>
+                            </div>
+
+                        )
+                            :
+                            (
+                                <span>Para enviar uma pergunta, <button>faça seu login</button>.</span>
+                            )}
                         <Button type="submit" disabled={!user}>Enviar pergunta</Button>
                     </div>
                 </form>
