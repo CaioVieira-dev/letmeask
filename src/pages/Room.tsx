@@ -11,6 +11,15 @@ import { database } from '../services/firebase';
 type RoomParams = {
     id: string;
 }
+type FirebaseQuestions = Record<string, {
+    author: {
+        name: string;
+        avatar: string;
+    }
+    content: string;
+    isAnswered: boolean;
+    isHighlighted: boolean;
+}>
 
 export function Room() {
     const { user } = useAuth();
@@ -20,8 +29,11 @@ export function Room() {
 
     useEffect(() => {
         const roomRef = database.ref(`rooms/${roomId}`);
-        roomRef.once('value', room => { //ouvindo um evento do firebase apenas uma unica vez; caso quiser ouvir todas, usar "on" no lugar de "once"
-            console.log(room.val());
+        roomRef.once('value', room => {
+            const databaseRoom = room.val();
+            const firebaseQuestions: FirebaseQuestions = databaseRoom.questions ?? {};
+
+            const parsedQuestions = Object.entries(firebaseQuestions)
         })
     }, [roomId])
 
