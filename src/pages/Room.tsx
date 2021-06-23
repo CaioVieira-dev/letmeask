@@ -23,7 +23,7 @@ export function Room() {
         roomRef.once('value', room => { //ouvindo um evento do firebase apenas uma unica vez; caso quiser ouvir todas, usar "on" no lugar de "once"
             console.log(room.val());
         })
-    }, [])
+    }, [roomId])
 
     async function handleSendQuestion(event: FormEvent) {
         event.preventDefault();
