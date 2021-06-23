@@ -21,11 +21,27 @@ type FirebaseQuestions = Record<string, {
     isHighlighted: boolean;
 }>
 
+type Question = {
+    id: string;
+    author: {
+        name: string;
+        avatar: string;
+    };
+    content: string;
+    isAnswered: boolean;
+    isHighlighted: boolean;
+}
+
 export function Room() {
     const { user } = useAuth();
     const [newQuestion, setNewQuestion] = useState('')
     const params = useParams<RoomParams>();
+    const [questions, setQuestions] = useState<Question[]>([]);
+
+    const [title, setTitle] = useState('');
+
     const roomId = params.id;
+
 
     useEffect(() => {
         const roomRef = database.ref(`rooms/${roomId}`);
@@ -33,7 +49,18 @@ export function Room() {
             const databaseRoom = room.val();
             const firebaseQuestions: FirebaseQuestions = databaseRoom.questions ?? {};
 
-            const parsedQuestions = Object.entries(firebaseQuestions)
+            const parsedQuestions = Object.entries(firebaseQuestions).map(([key, value]) => {
+                return {
+                    id: key,
+                    content: value.content,
+                    author: value.author,
+                    isHighlighted: value.isHighlighted,
+                    isAnswered: value.isAnswered,
+                }
+            })
+
+            setQuestions(parsedQuestions);
+            setTitle(databaseRoom.title);
         })
     }, [roomId])
 
@@ -72,8 +99,8 @@ export function Room() {
             </header>
             <main>
                 <div className="room-title">
-                    <h1>Sala react</h1>
-                    <span>4 perguntas</span>
+                    <h1>Sala {title}</h1>
+                    {questions.length > 0 && <span>{questions.length} pergunta(s)</span>}
                 </div>
                 <form onSubmit={handleSendQuestion}>
                     <textarea
