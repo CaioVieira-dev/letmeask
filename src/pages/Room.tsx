@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { RoomCode } from '../components/RoomCode';
 import '../styles/room.scss';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { database } from '../services/firebase';
 
@@ -17,6 +17,13 @@ export function Room() {
     const [newQuestion, setNewQuestion] = useState('')
     const params = useParams<RoomParams>();
     const roomId = params.id;
+
+    useEffect(() => {
+        const roomRef = database.ref(`rooms/${roomId}`);
+        roomRef.once('value', room => { //ouvindo um evento do firebase apenas uma unica vez; caso quiser ouvir todas, usar "on" no lugar de "once"
+            console.log(room.val());
+        })
+    }, [])
 
     async function handleSendQuestion(event: FormEvent) {
         event.preventDefault();
