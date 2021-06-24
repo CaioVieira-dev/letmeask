@@ -1,9 +1,10 @@
 import { FormEvent, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import { Button } from 'components/Button';
 import { RoomCode } from 'components/RoomCode';
-import { Question } from 'components/Question'
+import { Question } from 'components/Question';
+import { ToastContainer, toast } from 'react-toastify';
 
 import { useAuth } from 'hooks/useAuth';
 import { useRoom } from 'hooks/useRoom';
@@ -12,6 +13,7 @@ import { database } from 'services/firebase';
 
 import logoImg from 'assets/images/logo.svg';
 
+import 'react-toastify/dist/ReactToastify.min.css';
 import '../styles.scss';
 
 type RoomParams = {
@@ -21,6 +23,7 @@ type RoomParams = {
 
 export function Room() {
     const { user } = useAuth();
+    const history = useHistory();
     const [newQuestion, setNewQuestion] = useState('')
     const params = useParams<RoomParams>();
 
@@ -37,7 +40,16 @@ export function Room() {
         }
 
         if (!user) {
-            throw new Error('You must be logged in');
+            toast.error('Você precisa estar conectado', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
+            return;
         }
 
         const question = {
@@ -53,6 +65,15 @@ export function Room() {
         await database.ref(`rooms/${roomId}/questions`).push(question)
 
         setNewQuestion('');
+        toast.success('Pergunta enviada com sucesso!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        })
     }
 
     async function handleLikeQuestion(questionId: string, likeId: string | undefined) {
@@ -71,7 +92,7 @@ export function Room() {
         <div id="page-room">
             <header>
                 <div className="content">
-                    <img src={logoImg} alt="Letmeask" />
+                    <img onClick={() => history.push('/')} src={logoImg} alt="Letmeask" />
                     <RoomCode code={roomId} />
                 </div>
             </header>
@@ -126,6 +147,7 @@ export function Room() {
                     })}
                 </div>
             </main>
+            <ToastContainer />
         </div>
     )
 }
