@@ -1,20 +1,14 @@
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+import { Home } from "pages/Home/index";
+import { NewRoom } from "pages/NewRoom/index";
+import { AdminRoom } from 'pages/Room/AdminRoom/index';
+import { Room } from "pages/Room/UserRoom/index";
 
-
-import { Home } from "./pages/Home";
-
-import { NewRoom } from "./pages/NewRoom";
-
-import { Room } from "./pages/Room";
-
-import { AuthContextProvider } from './contexts/AuthContextProvider'
-import { AdminRoom } from './pages/AdminRoom';
-
+import { AuthContextProvider } from 'contexts/AuthContextProvider'
 
 function App() {
-
 
   return (
     <BrowserRouter>
