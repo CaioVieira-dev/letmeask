@@ -29,4 +29,14 @@
         font-weight: 500;
 
     }
+    @media (max-width: 600px){
+        
+        width:310px;
+        
+        
+        span{
+        width:calc(100% - 44px)
+            
+        }
+    }
 }

@@ -1,4 +1,5 @@
 import { useHistory, useParams } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
 
 import { Question } from 'components/Question'
 import { useRoom } from 'hooks/useRoom';
@@ -10,11 +11,10 @@ import logoImg from 'assets/images/logo.svg';
 import deleteImg from 'assets/images/delete.svg'
 import checkImg from 'assets/images/check.svg'
 import answerImg from 'assets/images/answer.svg'
+import menuBarsImg from 'assets/images/menu.svg';
 
 import '../styles.scss';
-//import { FormEvent, useState } from 'react';
-//import { useAuth } from '../hooks/useAuth';
-//import { database } from '../services/firebase';
+
 
 type RoomParams = {
     id: string;
@@ -22,13 +22,16 @@ type RoomParams = {
 
 
 export function AdminRoom() {
-    //const { user } = useAuth();
     const history = useHistory();
     const params = useParams<RoomParams>();
 
     const roomId = params.id;
 
     const { questions, title } = useRoom(roomId)
+    const menuRef = useRef<HTMLDivElement>(null);
+    const barsImg = useRef<HTMLImageElement>(null);
+
+
 
     async function handleEndRoom() {
         await database.ref(`rooms/${roomId}`).update({
@@ -36,27 +39,52 @@ export function AdminRoom() {
         })
         history.push('/')
     }
-
     async function handleDeleteQuestion(questionId: string) {
         if (window.confirm('Tem certeza que você deseja excluir esta pergunta?')) {
             await database.ref(`rooms/${roomId}/questions/${questionId}`).remove()
         }
     }
-
     async function handleCheckQuestionAsAnswered(questionId: string) {
         await database.ref(`rooms/${roomId}/questions/${questionId}`).update({ isAnswered: true })
     }
-
     async function handleHighlightQuestion(questionId: string) {
         await database.ref(`rooms/${roomId}/questions/${questionId}`).update({ isHighlighted: true })
     }
+
+    function toggleMenu() {
+
+        if (barsImg.current?.style.display === "none") {
+            barsImg.current.style.display = "block";
+            menuRef.current.style.transform = "translateY(-300px)";
+        } else {
+            barsImg.current.style.display = "none";
+            menuRef.current.style.transform = "translateY(0)";
+        }
+    }
+
+    const dropdownController = (e) => {
+        console.log("funfo")
+        if (document.body.clientWidth <= 768) { //media query
+            if (e.code === 'Escape') {
+                toggleMenu();
+            }
+        }
+    }
+    useEffect(() => {
+        document.addEventListener('keydown', (e) => dropdownController(e))
+        return () => {
+            document.removeEventListener('keydown', (e) => dropdownController(e))
+        }
+    }, [])
+
 
     return (
         <div id="page-room">
             <header>
                 <div className="content">
                     <img onClick={() => history.push('/')} src={logoImg} alt="Letmeask" />
-                    <div>
+                    <img ref={barsImg} id="menuBar" onClick={toggleMenu} src={menuBarsImg} alt="Menu" />
+                    <div ref={menuRef}>
                         <RoomCode code={roomId} />
                         <Button
                             isOutlined

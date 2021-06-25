@@ -30,4 +30,10 @@
             border:1px solid #835afd;
             color: #835afd;
         }
+
+        @media (max-width: 600px){
+            &.outlined{
+                width:310px;
+            }
+        }
 }

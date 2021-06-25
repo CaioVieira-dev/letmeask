@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { Button } from 'components/Button';
@@ -12,6 +12,7 @@ import { useRoom } from 'hooks/useRoom';
 import { database } from 'services/firebase';
 
 import logoImg from 'assets/images/logo.svg';
+import menuBarsImg from 'assets/images/menu.svg';
 
 import 'react-toastify/dist/ReactToastify.min.css';
 import '../styles.scss';
@@ -30,6 +31,9 @@ export function Room() {
     const roomId = params.id;
 
     const { questions, title } = useRoom(roomId)
+
+    const menuRef = useRef<HTMLDivElement>(null);
+    const barsImg = useRef<HTMLImageElement>(null);
 
 
 
@@ -88,12 +92,42 @@ export function Room() {
 
     }
 
+
+    function toggleMenu() {
+
+        if (barsImg.current?.style.display === "none") {
+            barsImg.current.style.display = "block";
+            menuRef.current.style.transform = "translateY(-300px)";
+        } else {
+            barsImg.current.style.display = "none";
+            menuRef.current.style.transform = "translateY(0)";
+        }
+    }
+
+    const dropdownController = (e) => {
+        if (document.body.clientWidth <= 768) { //media query
+            if (e.code === 'Escape') {
+                toggleMenu();
+            }
+        }
+    }
+    useEffect(() => {
+        document.addEventListener('keydown', (e) => dropdownController(e))
+        return () => {
+            document.removeEventListener('keydown', (e) => dropdownController(e))
+        }
+    }, [])
+
+
     return (
         <div id="page-room">
             <header>
                 <div className="content">
                     <img onClick={() => history.push('/')} src={logoImg} alt="Letmeask" />
-                    <RoomCode code={roomId} />
+                    <img ref={barsImg} id="menuBar" onClick={toggleMenu} src={menuBarsImg} alt="Menu" />
+                    <div ref={menuRef}>
+                        <RoomCode code={roomId} />
+                    </div>
                 </div>
             </header>
             <main>
