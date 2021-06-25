@@ -127,4 +127,27 @@
            margin-right: 16px;
         }
     }
+
+    
+    @media (max-width:768px){
+        flex-direction: column;
+        justify-content:center;
+        align-items:center;
+        overflow:auto;
+
+        aside{
+            justify-content: center;
+            align-items: center;
+            padding:30px 20px !important;
+            flex:1;
+            img{
+                max-width: 280px;
+            }
+        }
+        main{
+            margin: 32px 0;
+            flex:1;
+            
+        }
+    }
 }

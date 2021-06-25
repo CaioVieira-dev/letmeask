@@ -10,12 +10,14 @@ import illustrationImg from 'assets/images/illustration.svg'
 import logoImg from 'assets/images/logo.svg'
 
 import './styles.scss';
+import { useTheme } from 'hooks/useTheme';
 
 
 export function NewRoom() {
     const { user } = useAuth();
     const history = useHistory();
     const [newRoom, setNewRoom] = useState('');
+    const { theme } = useTheme();
 
 
     async function handleCreateRoom(event: FormEvent) {
@@ -34,6 +36,8 @@ export function NewRoom() {
 
         history.push(`/rooms/${firebaseRoom.key}`)
     }
+
+    console.log(theme);
 
     return (
         <div id="page-auth">
