@@ -13,10 +13,12 @@
             align-items:center;
 
             >span{
-                display: none;
                 font-size:24px;
                 color:#ea4335;
                margin-right: 8px;
+            }
+            >svg{
+                display: none;
             }
             >div:first-child{
                 display: flex;
@@ -65,7 +67,7 @@
                    }
                 }
             }
-
+            
             >div:last-child{//room code and end room
                 display: flex;
                 align-items:center;
@@ -75,9 +77,7 @@
                 }
             }
         }
-        #menuBar{
-            display: none;
-        }
+
 
         
     }
@@ -178,6 +178,10 @@
         .content >svg path{
         stroke: #f8f8f8;
         }
+        .content >div:last-child{
+        background-color:  #0d1117;
+
+        }
 
             
         }
@@ -239,9 +243,10 @@
                 }
 
             }
-            #menuBar{
+            .content > svg{
                 display: block;
             }
+            
         }
     }
     @media (max-width:420px){
@@ -253,4 +258,10 @@
             }
         }
     }
+}
+.dispNone{
+    display:none;
+}
+.dispBlock{
+    display:block;
 }
