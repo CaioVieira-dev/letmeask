@@ -4,6 +4,8 @@
     min-height: 100vh;
 
     aside{
+        transition: color 0.5s, background 0.5s;
+ 
         flex:7;
 
         background-color:#835afd;
@@ -30,14 +32,16 @@
         }
     }
 
+
     main{
+        transition: color 0.5s, background 0.5s;
         flex:8;
         padding:0 32px;
 
         display:flex;
         align-items:center;
         justify-content:center;
-        
+ 
     }
     .main-content{
             display:flex;
@@ -46,7 +50,7 @@
             max-width: 320px;
             align-items: stretch;
             text-align:center;
-
+            position: relative;
             >img {
                 align-self: center;
             }
@@ -80,6 +84,8 @@
                     color: #e559f9; 
                 }
             }
+
+           
     }
     .create-room{
         margin-top: 64px;
@@ -128,6 +134,23 @@
         }
     }
     
+    &.dark{
+        background-color: #0d1117;
+
+        aside{
+           background-color: #2e186f;
+        }
+        main{
+            background-color: #0d1117;
+            color: #f8f8f8;
+
+            .main-content p{
+                color: #f8f8f8;
+            }
+
+        }
+    }
+    
 
     @media (max-width:768px){
         flex-direction: column;
@@ -140,6 +163,7 @@
             align-items: center;
             padding:30px 20px !important;
             flex:1;
+            width:100%;
             img{
                 max-width: 280px;
             }
@@ -149,5 +173,44 @@
             flex:1;
             
         }
+        .create-room{
+            width: 310px;
+        }
     }
+
 }
+
+    .themeSwitch{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height:45px;
+        overflow: hidden;
+        width:80px;
+        border-radius:20px;
+        border: 2px solid #e2e2e2;
+        
+        position: absolute;
+        right:2%;
+        top:8px;
+        
+        cursor: pointer;
+        #sun{
+            transform: translateX(0px);
+            transition: transform 0.5s;
+            &.dark{
+               transform: translateX(200px);
+           }
+        }
+        #moon{
+
+           path{ stroke: #f8f8f8;
+           }
+           transform: translateX(-200px);
+           transition: transform 0.5s;
+    
+           &.dark{
+            transform: translateX(0px);
+           }
+        }
+    }

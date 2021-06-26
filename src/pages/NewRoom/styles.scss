@@ -128,6 +128,20 @@
         }
     }
 
+    &.dark{
+        aside{
+           background-color: #2e186f;
+        }
+        main{
+            background-color: #0d1117;
+            color: #f8f8f8;
+
+            .main-content p{
+                color: #f8f8f8;
+            }
+
+        }
+    }
     
     @media (max-width:768px){
         flex-direction: column;
@@ -149,5 +163,40 @@
             flex:1;
             
         }
+    }
+}
+
+.themeSwitch{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height:45px;
+    overflow: hidden;
+    width:80px;
+    border-radius:20px;
+    border: 2px solid #e2e2e2;
+    
+    position: absolute;
+    right:2%;
+    top:8px;
+    
+    cursor: pointer;
+    #sun{
+        transform: translateX(0px);
+        transition: transform 0.5s;
+        &.dark{
+           transform: translateX(200px);
+       }
+    }
+    #moon{
+
+       path{ stroke: #f8f8f8;
+       }
+       transform: translateX(-200px);
+       transition: transform 0.5s;
+
+       &.dark{
+        transform: translateX(0px);
+       }
     }
 }

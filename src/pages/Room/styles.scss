@@ -1,4 +1,5 @@
 #page-room{
+    transition: color 0.5s, background 0.5s;
     
     header{
         padding:24px;
@@ -11,12 +12,61 @@
             justify-content:space-between;
             align-items:center;
 
-            >img{
+            >span{
+                display: none;
+                font-size:24px;
+                color:#ea4335;
+               margin-right: 8px;
+            }
+            >div:first-child{
+                display: flex;
+                gap:16px;
+                align-items: center;
+                div{
+                    transform: translateY(-5px)
+                }
+            }
+            >div img{//logo image
                 max-height: 45px;
                 cursor: pointer;
             }
 
-            >div{
+            .themeSwitch{
+                
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height:45px;
+                overflow: hidden;
+                width:80px;
+                border-radius:20px;
+                border: 2px solid #e2e2e2;
+                position: relative;
+                
+                cursor: pointer;
+                #sun{
+                    
+                    transform: translateX(0px);
+                    transition: transform 0.5s;
+                    &.dark{
+                       transform: translateX(200px);
+                   }
+                }
+                #moon{
+                    
+
+                   path{ stroke: #f8f8f8;
+                   }
+                   transform: translateX(-200px);
+                   transition: transform 0.5s;
+
+                   &.dark{
+                    transform: translateX(0px);
+                   }
+                }
+            }
+
+            >div:last-child{//room code and end room
                 display: flex;
                 align-items:center;
                 gap:16px;
@@ -119,6 +169,38 @@
         }
     }
 
+    &.dark{
+        background-color:  #0d1117;
+        min-height: 100vh;
+        header{
+            border-bottom: 1px solid #656565;
+
+        .content >svg path{
+        stroke: #f8f8f8;
+        }
+
+            
+        }
+        main{
+            max-width: 800px;
+            margin: 0 auto;
+    
+            .room-title{
+                h1{
+                    color: #f8f8f8;
+                }
+                span{
+                    background-color: #835afd;
+                }
+            }
+            
+            form .form-footer .user-info span{
+                            color: #f8f8f8;
+                        }
+        }
+    }
+
+
     @media (max-width: 1024px){
         header{
             padding-right: 2%;
@@ -138,7 +220,7 @@
         header{
             position: relative;
            
-            .content >div{
+            .content >div:last-child{
                 
                 flex-direction: column;
                 position:absolute;
@@ -151,6 +233,10 @@
                 transform:translateY(-300px);
                 transition: transform 0.5s;
 
+                &.dark{
+                background-color:#0d1117;
+
+                }
 
             }
             #menuBar{
