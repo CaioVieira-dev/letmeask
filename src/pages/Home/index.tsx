@@ -5,14 +5,14 @@ import { useHistory } from 'react-router-dom';
 import { database } from 'services/firebase';
 import { useAuth } from 'hooks/useAuth';
 import { Button } from 'components/Button/index'
-import { useTheme } from 'hooks/useTheme';
 
 import illustrationImg from 'assets/images/illustration.svg'
 import logoImg from 'assets/images/logo.svg'
 import googleIconImg from 'assets/images/google-icon.svg'
-import LogoDark from 'assets/images/LogoDarkMode.svg'
+import logoDark from 'assets/images/LogoDarkMode.svg'
 import sun from 'assets/images/sun.svg';
 
+import { useTheme } from 'hooks/useTheme';
 
 import './styles.scss';
 
@@ -73,7 +73,7 @@ export function Home() {
                 <main>
                     <div className="main-content">
 
-                        <img src={theme === 'dark' ? LogoDark : logoImg} alt="Letmeask" />
+                        <img src={theme === 'dark' ? logoDark : logoImg} alt="Letmeask" />
                         <Button onClick={handleCreateRoom} className="create-room">
                             <img src={googleIconImg} alt="Logo do Google" />
                             Crie sua sala com o Google

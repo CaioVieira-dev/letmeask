@@ -1,6 +1,5 @@
 #page-room{
     transition: color 0.5s, background 0.5s;
-    
     header{
         padding:24px;
         border-bottom: 1px solid #e2e2e2;
@@ -12,63 +11,25 @@
             justify-content:space-between;
             align-items:center;
 
-            >span{
-                font-size:24px;
-                color:#ea4335;
-               margin-right: 8px;
-            }
-            >svg{
-                display: none;
-            }
-            >div:first-child{
-                display: flex;
-                gap:16px;
-                align-items: center;
-                div{
-                    transform: translateY(-5px)
-                }
-            }
-            >div img{//logo image
+        .closeMenu{
+            font-size: 24px;
+            font-weight: bold;
+            color:#ea4335;
+            margin-right: 8px;
+            display: none;
+        }
+        #menuBar{
+            display: none;
+        }
+            >div img{
                 max-height: 45px;
                 cursor: pointer;
             }
-
-            .themeSwitch{
-                
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                height:45px;
-                overflow: hidden;
-                width:80px;
-                border-radius:20px;
-                border: 2px solid #e2e2e2;
-                position: relative;
-                
-                cursor: pointer;
-                #sun{
-                    
-                    transform: translateX(0px);
-                    transition: transform 0.5s;
-                    &.dark{
-                       transform: translateX(200px);
-                   }
-                }
-                #moon{
-                    
-
-                   path{ stroke: #f8f8f8;
-                   }
-                   transform: translateX(-200px);
-                   transition: transform 0.5s;
-
-                   &.dark{
-                    transform: translateX(0px);
-                   }
-                }
+            div:first-child div{
+                transform:translateY(-2px);
             }
-            
-            >div:last-child{//room code and end room
+
+            >div{
                 display: flex;
                 align-items:center;
                 gap:16px;
@@ -77,7 +38,40 @@
                 }
             }
         }
+        .themeSwitch{
 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height:45px;
+            overflow: hidden;
+            width:80px;
+            border-radius:20px;
+            border: 2px solid #e2e2e2;
+            position: relative;
+
+            cursor: pointer;
+            #sun{
+
+                transform: translateX(0px);
+                transition: transform 0.5s;
+                &.dark{
+                   transform: translateX(200px);
+               }
+            }
+            #moon{
+
+
+               path{ stroke: #f8f8f8;
+               }
+               transform: translateX(-200px);
+               transition: transform 0.5s;
+
+               &.dark{
+                transform: translateX(0px);
+               }
+            }
+        }
 
         
     }
@@ -178,17 +172,13 @@
         .content >svg path{
         stroke: #f8f8f8;
         }
-        .content >div:last-child{
-        background-color:  #0d1117;
 
-        }
 
-            
         }
         main{
             max-width: 800px;
             margin: 0 auto;
-    
+
             .room-title{
                 h1{
                     color: #f8f8f8;
@@ -197,13 +187,12 @@
                     background-color: #835afd;
                 }
             }
-            
+
             form .form-footer .user-info span{
                             color: #f8f8f8;
                         }
         }
     }
-
 
     @media (max-width: 1024px){
         header{
@@ -238,14 +227,15 @@
                 transition: transform 0.5s;
 
                 &.dark{
-                background-color:#0d1117;
+        background-color:  #0d1117;
 
                 }
 
             }
-            .content > svg{
+           .content #menuBar{
                 display: block;
             }
+           
             
         }
     }
@@ -258,10 +248,4 @@
             }
         }
     }
-}
-.dispNone{
-    display:none;
-}
-.dispBlock{
-    display:block;
 }

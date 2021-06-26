@@ -11,15 +11,13 @@ import logoImg from 'assets/images/logo.svg';
 import deleteImg from 'assets/images/delete.svg'
 import checkImg from 'assets/images/check.svg'
 import answerImg from 'assets/images/answer.svg'
-
+import logoDark from 'assets/images/LogoDarkMode.svg'
 import sun from 'assets/images/sun.svg';
 
 
-import { useTheme } from 'hooks/useTheme';
-import LogoDark from 'assets/images/LogoDarkMode.svg'
-
-
 import '../styles.scss';
+import useWindowDimensions from 'hooks/useWindowDimensions';
+import { useTheme } from 'hooks/useTheme';
 
 
 type RoomParams = {
@@ -35,9 +33,11 @@ export function AdminRoom() {
 
     const { questions, title } = useRoom(roomId)
     const menuRef = useRef<HTMLDivElement>(null);
-    const barsImg = useRef(null);
+    const barsImg = useRef<SVGSVGElement>(null);
     const closeMenuRef = useRef<HTMLSpanElement>(null);
-    const { theme, toggleTheme } = useTheme();
+    const { width } = useWindowDimensions();
+    const { theme, toggleTheme } = useTheme()
+
 
 
 
@@ -60,20 +60,18 @@ export function AdminRoom() {
     }
 
     function toggleMenu() {
-
-        if (closeMenuRef.current.classList.contains("dispNone")) {
-            barsImg.current.classList.add("dispNone");
-            closeMenuRef.current.classList.remove("dispNone");
+        if (barsImg.current?.style.display === "none") {
+            barsImg.current.style.display = "block";
             menuRef.current.style.transform = "translateY(-300px)";
+            closeMenuRef.current.style.display = "none";
         } else {
-            barsImg.current.classList.remove("dispNone");
-            closeMenuRef.current.classList.add("dispNone");
-            menuRef.current.style.transform = "translateY(0)";
+            barsImg.current.style.display = "none";
+            menuRef.current.style.transform = "translateY(0px)";
+            closeMenuRef.current.style.display = "block";
         }
     }
 
     useEffect(() => {
-
         const dropdownController = (e) => {
             if (document.body.clientWidth <= 768) { //media query
                 if (e.code === 'Escape') {
@@ -87,13 +85,28 @@ export function AdminRoom() {
         }
     }, [])
 
+    useEffect(() => {
+        if (width > 768) {
+            if (barsImg.current?.style.display === "block") {
+                barsImg.current.style.display = "none";
+                closeMenuRef.current.style.display = "none";
+                menuRef.current.style.transform = "translateY(0px)";
+            }
+        } else {
+            if (menuRef.current?.style.transform === "translateY(0px)") {
+                menuRef.current.style.transform = "translateY(-300px)";
+                closeMenuRef.current.style.display = "none";
+                barsImg.current.style.display = "block";
+            }
+        }
 
+    }, [width])
     return (
         <div id="page-room" className={theme === 'dark' ? 'dark' : ''}>
             <header>
                 <div className="content">
                     <div>
-                        <img onClick={() => history.push('/')} src={theme === 'dark' ? LogoDark : logoImg} alt="Letmeask" />
+                        <img onClick={() => history.push('/')} src={theme === 'dark' ? logoDark : logoImg} alt="Letmeask" />
                         <div onClick={toggleTheme} className="themeSwitch">
                             <img className={theme === 'dark' ? 'dark' : ''} id="sun" src={sun} alt="Tema claro" />
                             <svg className={theme === 'dark' ? 'dark' : ''} id="moon" xmlns="http://www.w3.org/2000/svg" width="29.944" height="29.944" viewBox="0 0 29.944 29.944">
@@ -101,7 +114,7 @@ export function AdminRoom() {
                             </svg>
                         </div>
                     </div>
-                    <span className='dispNone' onClick={toggleMenu} ref={closeMenuRef} >X</span>
+                    <span ref={closeMenuRef} onClick={toggleMenu} className="closeMenu">X</span>
 
                     <svg ref={barsImg} id="menuBar" onClick={toggleMenu} xmlns="http://www.w3.org/2000/svg" width="30" height="21" viewBox="0 0 30 21">
                         <g id="Icon_feather-menu" data-name="Icon feather-menu" transform="translate(-3 -7.5)">
@@ -111,7 +124,7 @@ export function AdminRoom() {
                         </g>
                     </svg>
 
-                    <div ref={menuRef}>
+                    <div ref={menuRef} className={theme === 'dark' ? 'dark' : ''}>
                         <RoomCode code={roomId} />
                         <Button
                             isOutlined

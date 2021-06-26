@@ -1,5 +1,4 @@
 .button{
-
         height:50px;
         border-radius: 8px;
         font-weight: 500;
@@ -31,7 +30,8 @@
             color: #835afd;
         }
 
-        @media (max-width: 600px){
+        @media (max-width: 768px){
+            
             &.outlined{
                 width:310px;
             }

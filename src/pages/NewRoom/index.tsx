@@ -8,7 +8,7 @@ import { Button } from 'components/Button'
 
 import illustrationImg from 'assets/images/illustration.svg'
 import logoImg from 'assets/images/logo.svg'
-import LogoDark from 'assets/images/LogoDarkMode.svg'
+import logoDark from 'assets/images/LogoDarkMode.svg'
 import sun from 'assets/images/sun.svg';
 
 import './styles.scss';
@@ -40,7 +40,6 @@ export function NewRoom() {
     }
 
 
-
     return (
         <>
             <div onClick={toggleTheme} className="themeSwitch">
@@ -49,7 +48,7 @@ export function NewRoom() {
                     <path id="Icon_feather-moon" data-name="Icon feather-moon" d="M31.5,19.185A13.5,13.5,0,1,1,16.815,4.5,10.5,10.5,0,0,0,31.5,19.185Z" transform="translate(-3.056 -3)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" />
                 </svg>
             </div>
-            <div id="page-auth" className={theme === 'dark' ? 'dark' : ''}>
+            <div id="new-room" className={theme === 'dark' ? 'dark' : ''}>
                 <aside>
                     <img src={illustrationImg} alt="Ilustração simbolizando perguntas e respostas" />
                     <strong>Crie salas de Q&amp;A ao-vivo</strong>
@@ -57,7 +56,7 @@ export function NewRoom() {
                 </aside>
                 <main>
                     <div className="main-content">
-                        <img src={theme === 'dark' ? LogoDark : logoImg} alt="Letmeask" />
+                        <img src={theme === 'dark' ? logoDark : logoImg} alt="Letmeask" />
                         <h2>Criar uma nova sala</h2>
                         <form onSubmit={handleCreateRoom} >
                             <input

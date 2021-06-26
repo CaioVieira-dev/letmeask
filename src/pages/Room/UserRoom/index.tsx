@@ -12,13 +12,13 @@ import { useRoom } from 'hooks/useRoom';
 import { database } from 'services/firebase';
 
 import logoImg from 'assets/images/logo.svg';
-
-import LogoDark from 'assets/images/LogoDarkMode.svg'
-
+import logoDark from 'assets/images/LogoDarkMode.svg'
 import sun from 'assets/images/sun.svg';
+
 
 import 'react-toastify/dist/ReactToastify.min.css';
 import '../styles.scss';
+import useWindowDimensions from 'hooks/useWindowDimensions';
 import { useTheme } from 'hooks/useTheme';
 
 type RoomParams = {
@@ -34,13 +34,14 @@ export function Room() {
 
     const roomId = params.id;
 
-    const { questions, title } = useRoom(roomId)
+    const { questions, title } = useRoom(roomId);
 
     const menuRef = useRef<HTMLDivElement>(null);
-    const barsImg = useRef(null);
-    const closeMenuRef = useRef<HTMLSpanElement>(null);
-    const { theme, toggleTheme } = useTheme();
+    const barsImg = useRef<SVGSVGElement>(null);
 
+    const closeMenuRef = useRef<HTMLSpanElement>(null);
+    const { theme, toggleTheme } = useTheme()
+    const { width } = useWindowDimensions();
 
 
     async function handleSendQuestion(event: FormEvent) {
@@ -100,18 +101,17 @@ export function Room() {
 
 
     function toggleMenu() {
-
         if (barsImg.current?.style.display === "none") {
             barsImg.current.style.display = "block";
-            closeMenuRef.current.style.display = "none";
             menuRef.current.style.transform = "translateY(-300px)";
+            closeMenuRef.current.style.display = "none";
         } else {
             barsImg.current.style.display = "none";
+            menuRef.current.style.transform = "translateY(0px)";
             closeMenuRef.current.style.display = "block";
-            menuRef.current.style.transform = "translateY(0)";
+
         }
     }
-
 
     useEffect(() => {
         const dropdownController = (e) => {
@@ -128,30 +128,48 @@ export function Room() {
     }, [])
 
 
+    useEffect(() => {
+        if (width > 768) {
+            if (barsImg.current?.style.display === "block") {
+                barsImg.current.style.display = "none";
+                closeMenuRef.current.style.display = "none";
+                menuRef.current.style.transform = "translateY(0px)";
+            }
+        } else {
+            if (menuRef.current?.style.transform === "translateY(0px)") {
+                menuRef.current.style.transform = "translateY(-300px)";
+                closeMenuRef.current.style.display = "none";
+                barsImg.current.style.display = "block";
+            }
+        }
+
+    }, [width])
+
     return (
         <div id="page-room" className={theme === 'dark' ? 'dark' : ''}>
             <header>
                 <div className="content">
                     <div>
-                        <img onClick={() => history.push('/')} src={theme === 'dark' ? LogoDark : logoImg} alt="Letmeask" />
+                        <img onClick={() => history.push('/')} src={theme === 'dark' ? logoDark : logoImg} alt="Letmeask" />
                         <div onClick={toggleTheme} className="themeSwitch">
                             <img className={theme === 'dark' ? 'dark' : ''} id="sun" src={sun} alt="Tema claro" />
                             <svg className={theme === 'dark' ? 'dark' : ''} id="moon" xmlns="http://www.w3.org/2000/svg" width="29.944" height="29.944" viewBox="0 0 29.944 29.944">
-                                <path id="Icon_feather-moon" data-name="Icon feather-moon" d="M31.5,19.185A13.5,13.5,0,1,1,16.815,4.5,10.5,10.5,0,0,0,31.5,19.185Z" transform="translate(-3.056 -3)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" />
+                                <path id="Icon_feather-moon" data-name="Icon feather-moon" d="M31.5,19.185A13.5,13.5,0,1,1,16.815,4.5,10.5,10.5,0,0,0,31.5,19.185Z" transform="translate(-3.056 -3)" fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" />
                             </svg>
-
                         </div>
                     </div>
 
-                    <span onClick={toggleMenu} ref={closeMenuRef} >X</span>
+                    <span ref={closeMenuRef} onClick={toggleMenu} className="closeMenu">X</span>
+
                     <svg ref={barsImg} id="menuBar" onClick={toggleMenu} xmlns="http://www.w3.org/2000/svg" width="30" height="21" viewBox="0 0 30 21">
                         <g id="Icon_feather-menu" data-name="Icon feather-menu" transform="translate(-3 -7.5)">
-                            <path id="Caminho_7" data-name="Caminho 7" d="M4.5,18h27" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" />
-                            <path id="Caminho_8" data-name="Caminho 8" d="M4.5,9h27" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" />
-                            <path id="Caminho_9" data-name="Caminho 9" d="M4.5,27h27" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" />
+                            <path id="Caminho_7" data-name="Caminho 7" d="M4.5,18h27" fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" />
+                            <path id="Caminho_8" data-name="Caminho 8" d="M4.5,9h27" fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" />
+                            <path id="Caminho_9" data-name="Caminho 9" d="M4.5,27h27" fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" />
                         </g>
                     </svg>
-                    <div className={theme === 'dark' ? 'dark' : ''} ref={menuRef}>
+
+                    <div ref={menuRef} className={theme === 'dark' ? 'dark' : ''}>
                         <RoomCode code={roomId} />
                     </div>
                 </div>
